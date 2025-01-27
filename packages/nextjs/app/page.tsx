@@ -3,7 +3,12 @@
 import Link from "next/link";
 import type { NextPage } from "next";
 import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { 
+  FlagIcon, 
+  CurrencyDollarIcon, 
+  CodeBracketIcon,
+  ShieldCheckIcon 
+} from "@heroicons/react/24/outline";
 import { Address } from "~~/components/scaffold-eth";
 
 const Home: NextPage = () => {
@@ -12,56 +17,78 @@ const Home: NextPage = () => {
   return (
     <>
       <div className="flex items-center flex-col flex-grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-ETH 2</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2 flex-col sm:flex-row">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
+        <div className="px-5 text-center">
+          {/* Hero Section */}
+          <div className="bg-gradient-to-r from-blue-600 to-red-600 text-white py-12 px-8 rounded-3xl shadow-2xl mb-12 animate-fade-in">
+            <h1 className="text-center mb-8">
+              <span className="block text-4xl mb-4 font-bold bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 to-white">
+                🦅 Make Crypto Great Again 🦅
+              </span>
+              <span className="block text-5xl font-bold mb-4">WORLD CAPITAL</span>
+              <span className="block text-3xl bg-white text-blue-600 px-4 py-2 rounded-full inline-block">
+                $WCL Token
+              </span>
+            </h1>
+            <div className="flex flex-col items-center space-y-4">
+              <div className="bg-white/20 p-4 rounded-xl">
+                <Address address={connectedAddress} />
+              </div>
+              <div className="flex space-x-4">
+                <Link href="/debug" className="btn btn-lg btn-primary animate-bounce">
+                  <CodeBracketIcon className="h-6 w-6 mr-2" />
+                  Interact with Blockchain
+                </Link>
+                
+              </div>
+            </div>
           </div>
 
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic bg-base-300 text-base font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
-        </div>
+          {/* Value Proposition Section */}
+          <div className="mb-16 bg-blue-50 py-12 px-8 rounded-3xl">
+            <h2 className="text-3xl font-bold mb-8 text-blue-800 text-center">Why Choose $WCL?</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {/* America-First Card */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-blue-100 hover:shadow-xl transition-shadow">
+                <FlagIcon className="h-12 w-12 text-blue-600 mb-4 mx-auto" />
+                <h3 className="text-xl font-bold mb-2 text-center text-blue-800">America-First Crypto</h3>
+                <p className="text-gray-800 text-center">Secure, stable digital currency backed by American values</p>
+              </div>
 
-        <div className="flex-grow bg-base-300 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col sm:flex-row">
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
+              {/* Security Card */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-blue-100 hover:shadow-xl transition-shadow">
+                <ShieldCheckIcon className="h-12 w-12 text-blue-600 mb-4 mx-auto" />
+                <h3 className="text-xl font-bold mb-2 text-center text-blue-800">Fort Knox Security</h3>
+                <p className="text-gray-800 text-center">Military-grade blockchain protection for your assets</p>
+              </div>
+
+              {/* Economic Card */}
+              <div className="bg-white p-8 rounded-2xl shadow-lg border border-blue-100 hover:shadow-xl transition-shadow">
+                <CurrencyDollarIcon className="h-12 w-12 text-blue-600 mb-4 mx-auto" />
+                <h3 className="text-xl font-bold mb-2 text-center text-blue-800">Economic Dominance</h3>
+                <p className="text-gray-800 text-center">Driving global crypto adoption through American innovation</p>
+              </div>
             </div>
-            <div className="flex flex-col bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
+          </div>
+
+          {/* Liquidity Call-to-Action */}
+          <div className="bg-red-600 text-white p-8 rounded-3xl mb-12 shadow-xl">
+            <h2 className="text-3xl font-bold mb-4">Build the Wall of Liquidity</h2>
+            <div className="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+              <p className="text-xl max-w-xl text-center">
+                Join thousands of patriots securing our financial future. Add liquidity and help make $WCL the
+                <span className="font-bold"> #1 Crypto in the World</span>
               </p>
+              <Link href="/debug" className="btn btn-lg btn-warning animate-pulse">
+                🤝 Interact Now
+              </Link>
             </div>
+          </div>
+
+          {/* Disclaimer */}
+          <div className="text-sm text-gray-500 max-w-2xl mx-auto">
+            * $WCL is the official cryptocurrency of American financial sovereignty. All transactions are final.
+            <br />
+            Proudly developed in North-America
           </div>
         </div>
       </div>

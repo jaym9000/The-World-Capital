@@ -9,16 +9,22 @@ import { Address, Balance } from "~~/components/scaffold-eth";
 import { useDeployedContractInfo, useNetworkColor } from "~~/hooks/scaffold-eth";
 import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
 import { ContractName } from "~~/utils/scaffold-eth/contract";
+import { MagnifyingGlassIcon, PencilIcon, ChartBarIcon } from "@heroicons/react/24/outline";
 
 type ContractUIProps = {
   contractName: ContractName;
   className?: string;
+  theme: {
+    primary: string;
+    secondary: string;
+    accent: string;
+  };
 };
 
 /**
  * UI component to interface with deployed contracts.
  **/
-export const ContractUI = ({ contractName, className = "" }: ContractUIProps) => {
+export const ContractUI = ({ contractName, className = "", theme }: ContractUIProps) => {
   const [refreshDisplayVariables, triggerRefreshDisplayVariables] = useReducer(value => !value, false);
   const { targetNetwork } = useTargetNetwork();
   const { data: deployedContractData, isLoading: deployedContractLoading } = useDeployedContractInfo({ contractName });
@@ -41,63 +47,54 @@ export const ContractUI = ({ contractName, className = "" }: ContractUIProps) =>
   }
 
   return (
-    <div className={`grid grid-cols-1 lg:grid-cols-6 px-6 lg:px-10 lg:gap-12 w-full max-w-7xl my-0 ${className}`}>
-      <div className="col-span-5 grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-10">
-        <div className="col-span-1 flex flex-col">
-          <div className="bg-base-100 border-base-300 border shadow-md shadow-secondary rounded-3xl px-6 lg:px-8 mb-6 space-y-1 py-4">
-            <div className="flex">
-              <div className="flex flex-col gap-1">
-                <span className="font-bold">{contractName}</span>
-                <Address address={deployedContractData.address} onlyEnsOrAddress />
-                <div className="flex gap-1 items-center">
-                  <span className="font-bold text-sm">Balance:</span>
-                  <Balance address={deployedContractData.address} className="px-0 h-1.5 min-h-[0.375rem]" />
-                </div>
-              </div>
-            </div>
-            {targetNetwork && (
-              <p className="my-0 text-sm">
-                <span className="font-bold">Network</span>:{" "}
-                <span style={{ color: networkColor }}>{targetNetwork.name}</span>
-              </p>
-            )}
-          </div>
-          <div className="bg-base-300 rounded-3xl px-6 lg:px-8 py-4 shadow-lg shadow-base-300">
-            <ContractVariables
-              refreshDisplayVariables={refreshDisplayVariables}
-              deployedContractData={deployedContractData}
-            />
-          </div>
+    <div className={`${className} w-full max-w-7xl bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-3xl shadow-xl border-2 border-blue-100 dark:border-gray-700 p-8`}>
+      <div className="mb-8">
+        <h2 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-red-600 dark:from-blue-400 dark:to-red-400">
+          {contractName}
+        </h2>
+        <div className="flex items-center gap-4 mt-4">
+          <Address 
+            address={deployedContractData.address} 
+          />
+          <Balance 
+            address={deployedContractData.address} 
+          />
         </div>
-        <div className="col-span-1 lg:col-span-2 flex flex-col gap-6">
-          <div className="z-10">
-            <div className="bg-base-100 rounded-3xl shadow-md shadow-secondary border border-base-300 flex flex-col mt-10 relative">
-              <div className="h-[5rem] w-[5.5rem] bg-base-300 absolute self-start rounded-[22px] -top-[38px] -left-[1px] -z-10 py-[0.65rem] shadow-lg shadow-base-300">
-                <div className="flex items-center justify-center space-x-2">
-                  <p className="my-0 text-sm">Read</p>
-                </div>
-              </div>
-              <div className="p-5 divide-y divide-base-300">
-                <ContractReadMethods deployedContractData={deployedContractData} />
-              </div>
-            </div>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Read Methods Section */}
+        <div className="bg-blue-50 dark:bg-blue-900/50 p-6 rounded-2xl border-2 border-blue-100 dark:border-blue-800">
+          <div className="flex items-center gap-2 mb-4">
+            <MagnifyingGlassIcon className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+            <h3 className="text-2xl font-bold text-blue-800 dark:text-blue-200">Read Methods</h3>
           </div>
-          <div className="z-10">
-            <div className="bg-base-100 rounded-3xl shadow-md shadow-secondary border border-base-300 flex flex-col mt-10 relative">
-              <div className="h-[5rem] w-[5.5rem] bg-base-300 absolute self-start rounded-[22px] -top-[38px] -left-[1px] -z-10 py-[0.65rem] shadow-lg shadow-base-300">
-                <div className="flex items-center justify-center space-x-2">
-                  <p className="my-0 text-sm">Write</p>
-                </div>
-              </div>
-              <div className="p-5 divide-y divide-base-300">
-                <ContractWriteMethods
-                  deployedContractData={deployedContractData}
-                  onChange={triggerRefreshDisplayVariables}
-                />
-              </div>
-            </div>
-          </div>
+          <ContractReadMethods deployedContractData={deployedContractData} />
         </div>
+
+        {/* Write Methods Section */}
+        <div className="bg-red-50 dark:bg-red-900/50 p-6 rounded-2xl border-2 border-red-100 dark:border-red-800">
+          <div className="flex items-center gap-2 mb-4">
+            <PencilIcon className="h-6 w-6 text-red-600 dark:text-red-300" />
+            <h3 className="text-2xl font-bold text-red-800 dark:text-red-200">Write Methods</h3>
+          </div>
+          <ContractWriteMethods
+            deployedContractData={deployedContractData}
+            onChange={triggerRefreshDisplayVariables}
+          />
+        </div>
+      </div>
+
+      {/* Variables Section */}
+      <div className="mt-8 bg-white dark:bg-gray-800 p-6 rounded-2xl border-2 border-blue-100 dark:border-gray-700 shadow-lg">
+        <div className="flex items-center gap-2 mb-4">
+          <ChartBarIcon className="h-6 w-6 text-blue-600 dark:text-blue-300" />
+          <h3 className="text-2xl font-bold text-blue-800 dark:text-blue-200">Contract Variables</h3>
+        </div>
+        <ContractVariables
+          refreshDisplayVariables={refreshDisplayVariables}
+          deployedContractData={deployedContractData}
+        />
       </div>
     </div>
   );

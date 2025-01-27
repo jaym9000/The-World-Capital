@@ -34,26 +34,25 @@ export function DebugContracts() {
   return (
     <div className="flex flex-col gap-y-6 lg:gap-y-8 py-8 lg:py-12 justify-center items-center">
       {contractNames.length === 0 ? (
-        <p className="text-3xl mt-14">No contracts found!</p>
+        <p className="text-3xl mt-14 text-red-600 dark:text-red-400 font-bold">No contracts found!</p>
       ) : (
         <>
           {contractNames.length > 1 && (
             <div className="flex flex-row gap-2 w-full max-w-7xl pb-1 px-6 lg:px-10 flex-wrap">
               {contractNames.map(contractName => (
                 <button
-                  className={`btn btn-secondary btn-sm font-light hover:border-transparent ${
+                  className={`btn btn-lg font-bold ${
                     contractName === selectedContract
-                      ? "bg-base-300 hover:bg-base-300 no-animation"
-                      : "bg-base-100 hover:bg-secondary"
-                  }`}
+                      ? "bg-blue-600 dark:bg-blue-800 text-white hover:bg-blue-700 dark:hover:bg-blue-900 border-2 border-white dark:border-gray-700"
+                      : "bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-300 hover:bg-blue-50 dark:hover:bg-gray-700 border-2 border-blue-600 dark:border-gray-600"
+                  } rounded-full shadow-lg transition-all duration-300`}
                   key={contractName}
                   onClick={() => setSelectedContract(contractName)}
                 >
+                  <span className="mr-2">📜</span>
                   {contractName}
                   {(contractsData[contractName] as GenericContract)?.external && (
-                    <span className="tooltip tooltip-top tooltip-accent" data-tip="External contract">
-                      <BarsArrowUpIcon className="h-4 w-4 cursor-pointer" />
-                    </span>
+                    <span className="ml-2 text-yellow-400">★</span>
                   )}
                 </button>
               ))}
@@ -64,6 +63,11 @@ export function DebugContracts() {
               key={contractName}
               contractName={contractName}
               className={contractName === selectedContract ? "" : "hidden"}
+              theme={{
+                primary: "bg-gradient-to-r from-blue-600 to-red-600",
+                secondary: "bg-white text-blue-600",
+                accent: "text-yellow-400"
+              }}
             />
           ))}
         </>
