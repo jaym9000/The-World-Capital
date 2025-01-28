@@ -37,6 +37,13 @@ contract YourContract is ERC20, ERC20Burnable, ERC20Permit, Ownable {
     constructor(
         address initialOwner
     ) ERC20(_NAME, _SYMBOL) ERC20Permit(_NAME) Ownable(initialOwner) {
+        // Initialize EIP712 domain explicitly
+        bytes32 domainSeparator = _domainSeparatorV4();
+        require(
+            domainSeparator != bytes32(0),
+            "Domain separator initialization failed"
+        );
+
         _mint(msg.sender, 1000 * 10 ** decimals());
     }
 
