@@ -1,3 +1,11 @@
 {
-  "installCommand": "yarn install"
+  "build": {
+    "env": {
+      "NEXT_PUBLIC_ALCHEMY_API_KEY": "@alchemy_api_key",
+      "NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID": "@walletconnect_project_id"
+    }
+  },
+  "framework": "nextjs",
+  "installCommand": "yarn install",
+  "outputDirectory": ".next"
 }
