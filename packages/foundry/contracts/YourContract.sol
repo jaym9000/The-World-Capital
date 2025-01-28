@@ -17,6 +17,8 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
  */
 contract YourContract is ERC20, ERC20Burnable, ERC20Permit, Ownable {
     // State Variables
+    string private constant _NAME = "World Capital";
+    string private constant _SYMBOL = "WCL";
     string public greeting = "Building Unstoppable Apps!!!";
     bool public premium = false;
     uint256 public totalCounter = 0;
@@ -34,12 +36,8 @@ contract YourContract is ERC20, ERC20Burnable, ERC20Permit, Ownable {
     // Check packages/foundry/deploy/Deploy.s.sol
     constructor(
         address initialOwner
-    )
-        ERC20("World Capital", "WCL")
-        Ownable(initialOwner)
-        ERC20Permit("World Capital")
-    {
-        _mint(msg.sender, 1000 * 10 ** 18);
+    ) ERC20(_NAME, _SYMBOL) ERC20Permit(_NAME) Ownable(initialOwner) {
+        _mint(msg.sender, 1000 * 10 ** decimals());
     }
 
     // Mint new tokens
@@ -56,4 +54,8 @@ contract YourContract is ERC20, ERC20Burnable, ERC20Permit, Ownable {
      * Function that allows the contract to receive ETH
      */
     receive() external payable {}
+
+    function decimals() public pure override(ERC20) returns (uint8) {
+        return 18;
+    }
 }
